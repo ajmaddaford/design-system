@@ -59,6 +59,7 @@ export default class AutosuggestAddress {
 
     // Set up AIMS api variables and auth
     this.APIDomain = this.container.getAttribute('data-api-domain');
+    this.statusCheck = `${this.APIDomain}/healthz`;
     this.lookupURL = `${this.APIDomain}/addresses/eq?input=`;
     this.lookupGroupURL = `${this.APIDomain}/addresses/eq/bucket?`;
     this.retrieveURL = `${this.APIDomain}/addresses/eq/uprn/`;
@@ -73,14 +74,14 @@ export default class AutosuggestAddress {
   }
 
   checkAPIStatus() {
-    this.fetch = abortableFetch(this.lookupURL + 'CF142&limit=10', {
+    this.fetch = abortableFetch(this.statusCheck, {
       method: 'GET',
       headers: this.setAuthorization(this.authorizationToken),
     });
     this.fetch
       .send()
       .then(async response => {
-        const status = (await response.json()).status.code;
+        const status = await response.json();
         if (status > 400) {
           if (this.isEditable) {
             this.handleAPIError();
