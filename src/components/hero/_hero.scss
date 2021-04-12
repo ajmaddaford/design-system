@@ -2,6 +2,7 @@
 .hero {
   background-color: $color-branded;
   padding: 2rem 0;
+
   &__content {
     height: 100%;
   }
@@ -38,7 +39,7 @@
   .hero__circle-image,
   .hero__circle-gradient,
   .hero__circle-lined,
-  .hero__circle-white {
+  .hero__circle {
     position: absolute;
   }
   .hero__circle-image {
@@ -49,6 +50,7 @@
     top: -98px;
     width: 300px;
     z-index: 2;
+
     img {
       border-radius: 50%;
       display: block;
@@ -65,7 +67,7 @@
     width: 182px;
     z-index: 3;
   }
-  .hero__circle-white {
+  .hero__circle {
     background-color: $color-white;
     border-radius: 50%;
     display: block;
@@ -90,8 +92,18 @@
     padding-top: 218px;
     position: relative;
     z-index: 5;
+
     &--ondark {
       color: $color-white;
+
+      a {
+        color: inherit;
+        text-decoration: underline solid $color-white 1px;
+      }
+
+      a:hover {
+        text-decoration-thickness: 2px;
+      }
     }
   }
 
@@ -114,7 +126,7 @@
       top: 1rem;
       width: 234px;
     }
-    .hero__circle-white {
+    .hero__circle {
       left: -331px;
       margin: auto; // Reset
       top: -288px;
@@ -127,6 +139,10 @@
     }
     .hero__container {
       align-items: center;
+
+      &--has-collapsible {
+        align-items: flex-start; // Prevents undesired shift if not enough content
+      }
     }
   }
 
@@ -146,7 +162,7 @@
       right: -171px; // Half width of circle
       width: 342px;
     }
-    .hero__circle-white {
+    .hero__circle {
       top: -369px;
     }
     .hero__circle-lined {
