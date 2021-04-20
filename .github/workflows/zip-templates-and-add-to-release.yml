@@ -5,6 +5,8 @@ on:
 jobs:
   add-templates-to-release:
     runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.event.release.tag_name }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -12,17 +14,16 @@ jobs:
           node-version: '14'
       - name: Install dependencies
         run: |
-          sudo apt-get update && sudo apt-get install -y --allow-unauthenticated zip
           yarn install
       - name: Build templates
         run: |
           cd src
-          RELEASE_VERSION=$GITHUB_REF yarn cdn-bundle
+          RELEASE_VERSION=$TAG yarn cdn-bundle
       - name: Zip templates
         run: zip -r templates.zip templates/*
       - uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: templates.zip
-          tag: $GITHUB_REF
+          tag: $TAG
           overwrite: true
